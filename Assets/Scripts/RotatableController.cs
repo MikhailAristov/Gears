@@ -26,17 +26,21 @@ public class RotatableController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		// Reset torque if necessary
 		if(!HasTorque()) {
 			SetTorquer(null);
 		}
-		TargetRotationZ -= 0.05f * RotationSpeed / Time.fixedDeltaTime;
-		while(TargetRotationZ > 180f) {
-			TargetRotationZ -= 360f;
+		// Update rotation according to speed
+		if(Mathf.Abs(RotationSpeed) > 0) {
+			TargetRotationZ -= 0.05f * RotationSpeed / Time.fixedDeltaTime;
+			while(TargetRotationZ > 180f) {
+				TargetRotationZ -= 360f;
+			}
+			while(TargetRotationZ < -180f) {
+				TargetRotationZ += 360f;
+			}
+			TargetRotation = Quaternion.Euler(0, 0, TargetRotationZ);
 		}
-		while(TargetRotationZ < -180f) {
-			TargetRotationZ += 360f;
-		}
-		TargetRotation = Quaternion.Euler(0, 0, TargetRotationZ);
 	}
 
 	// The force emitter has torque, as do all rotators directly connected to it
@@ -49,7 +53,7 @@ public class RotatableController : MonoBehaviour {
 		TorqueFrom = t;
 		if(t == null) {
 			RotationSpeed = 0;
-		} else if(t.gameObject.CompareTag("Respawn") || CompareTag("Finish")) {
+		} else if(t.CompareTag("Respawn") || CompareTag("Finish")) {
 			// Force emitter and sink have direct speed transmission
 			RotationSpeed = t.RotationSpeed;
 		} else {

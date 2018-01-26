@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GearController : MonoBehaviour {
+public class GearController : MonoBehaviour, IClickable {
 
 	const float EMITTER_TOLERANCE = 0.05f;
 	const float SINK_TOLERANCE = EMITTER_TOLERANCE;
@@ -85,5 +85,9 @@ public class GearController : MonoBehaviour {
 		if(Vector2.Distance(Sink.transform.position, transform.position) < SINK_TOLERANCE) {
 			Sink.SetTorquer(MyRotator);
 		}
+	}
+
+	public GameObject GetGameObject() {
+		return gameObject;
 	}
 }
