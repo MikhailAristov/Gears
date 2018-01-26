@@ -13,6 +13,8 @@ public class RotatableController : MonoBehaviour {
 	private float TargetRotationZ;
 	private Quaternion TargetRotation;
 
+	public RotatableController TorqueFrom;
+
 	// Use this for initialization
 	void Start() {
 		TargetRotation = transform.localRotation;
@@ -24,7 +26,9 @@ public class RotatableController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		//Torque = Radius * Force;
+		if(!HasTorque()) {
+			SetTorquer(null);
+		}
 		TargetRotationZ -= 0.05f * RotationSpeed / Time.fixedDeltaTime;
 		while(TargetRotationZ > 180f) {
 			TargetRotationZ -= 360f;
@@ -33,5 +37,24 @@ public class RotatableController : MonoBehaviour {
 			TargetRotationZ += 360f;
 		}
 		TargetRotation = Quaternion.Euler(0, 0, TargetRotationZ);
+	}
+
+	// The force emitter has torque, as do all rotators directly connected to it
+	public bool HasTorque() {
+		return (CompareTag("Respawn") || (TorqueFrom != null && TorqueFrom.HasTorque()));
+	}
+
+	public void SetTorquer(RotatableController t) {
+		Debug.AssertFormat(t == null || !HasTorque(), gameObject.name);
+		TorqueFrom = t;
+		if(t == null) {
+			RotationSpeed = 0;
+		} else if(t.gameObject.CompareTag("Respawn") || CompareTag("Finish")) {
+			// Force emitter and sink have direct speed transmission
+			RotationSpeed = t.RotationSpeed;
+		} else {
+			// Gears transmit in reverse
+			RotationSpeed = -t.RotationSpeed * t.Radius / Radius;
+		}
 	}
 }

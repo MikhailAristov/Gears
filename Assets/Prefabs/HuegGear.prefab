@@ -9,57 +9,72 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1142001496380846}
+  m_RootGameObject: {fileID: 1166222163407516}
   m_IsPrefabParent: 1
---- !u!1 &1142001496380846
+--- !u!1 &1166222163407516
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4068850664356404}
-  - component: {fileID: 212777733617932912}
-  - component: {fileID: 114107259460529432}
+  - component: {fileID: 4247936579980684}
+  - component: {fileID: 212627317048975890}
+  - component: {fileID: 114950914260354274}
+  - component: {fileID: 114226180938575300}
   m_Layer: 0
-  m_Name: ForceEmitter
-  m_TagString: Respawn
+  m_Name: HuegGear
+  m_TagString: Gear
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4068850664356404
+--- !u!4 &4247936579980684
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142001496380846}
+  m_GameObject: {fileID: 1166222163407516}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114107259460529432
+--- !u!114 &114226180938575300
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142001496380846}
+  m_GameObject: {fileID: 1166222163407516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0841a33833c00a54aa90072750d877f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NearestGear: {fileID: 0}
+  DistToNearestGear: 0
+  DistToInteract: 0
+--- !u!114 &114950914260354274
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1166222163407516}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9243e9718ab174040952c573dc76deaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 0.1
-  RotationSpeed: 1
---- !u!212 &212777733617932912
+  Radius: 1.4
+  RotationSpeed: 0
+--- !u!212 &212627317048975890
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142001496380846}
+  m_GameObject: {fileID: 1166222163407516}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -85,15 +100,15 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -2033016871
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 932325c9d1cd67e41a5ab1a75e4c8fad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 385705fc2d776f849b4f1e6fc2741250, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 4.8, y: 4.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
