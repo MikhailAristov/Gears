@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Gear
+  - Start
   layers:
   - Default
   - TransparentFX
@@ -38,6 +40,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3911784605
+    locked: 0
+  - name: Level
+    uniqueID: 2261950425
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
