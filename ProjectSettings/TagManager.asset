@@ -52,3 +52,6 @@ TagManager:
   - name: Obstacles
     uniqueID: 1617105853
     locked: 0
+  - name: GUIOverlay
+    uniqueID: 4218990285
+    locked: 0

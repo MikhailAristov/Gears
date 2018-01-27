@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour {
 
 	public bool LevelCompleted;
 	public bool LevelFailed;
+	public string LevelFailedHint;
 
 	public List<RotatableController> Gears;
 	private int GearCounter;
@@ -29,8 +30,8 @@ public class GameController : MonoBehaviour {
 
 	void FixedUpdate() {
 		// Check victory and loss conditions
-		LevelCompleted = CheckVictoryConditions();
-		LevelFailed = !LevelCompleted && CheckLossConditions();
+		LevelCompleted |= CheckVictoryConditions();
+		LevelFailed |= !LevelCompleted && CheckLossConditions();
 	}
 
 	private bool CheckVictoryConditions() {
@@ -47,6 +48,9 @@ public class GameController : MonoBehaviour {
 		bool result = false;
 		foreach(RotatableController fs in Sinks) {
 			result |= fs.HasSinkFullyTurnedTheWrongWay;
+		}
+		if(result) {
+			LevelFailedHint = "The blue axle has turned the wrong way!";
 		}
 		return result;
 	}

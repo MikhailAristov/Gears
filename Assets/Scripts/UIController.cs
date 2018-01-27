@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour {
@@ -27,12 +28,32 @@ public class UIController : MonoBehaviour {
 		{KeyCode.F12, 11}
 	};
 
+	public Canvas EndgameMessaging;
+	public UnityEngine.UI.Text VictoryMainMessage;
+	public UnityEngine.UI.Text VictoryExtraMessage;
+	public UnityEngine.UI.Text LossMainMessage;
+	public UnityEngine.UI.Text LossExtraMessage;
+	private bool EndgameMessagingEnabled;
+
 	public GameObject CurrentlyCarried;
 	
 	// Update is called once per frame
 	void Update() {
 		if(Input.anyKeyDown) {
 			CheckControlButtons();
+		}
+
+		// Do not continue if level has been failed or completed
+		if(Game.LevelCompleted || Game.LevelFailed) {
+			if(EndgameMessagingEnabled) {
+				return;
+			}
+			if(Game.LevelCompleted) {
+				DisplayCongratulations();
+			} else {
+				DisplayHint(Game.LevelFailedHint);
+			}
+			EndgameMessagingEnabled = true;
 		}
 
 		// Check if a number has been entered via numpad
@@ -135,6 +156,48 @@ public class UIController : MonoBehaviour {
 			}
 		}
 		return null;
+	}
+
+	private int GetCurrentLevelIndex() {
+		string thisLevelName = SceneManager.GetActiveScene().name;
+		for(int i = 0; i < LevelNames.Length; i++) {
+			if(LevelNames[i] == thisLevelName) {
+				return i;
+			}
+		}
+		throw new KeyNotFoundException();
+	}
+
+	private string GetKeyForLevelIndex(int index) {
+		index %= LevelNames.Length;
+		foreach(KeyCode k in FKeyToLevelMapping.Keys) {
+			if(FKeyToLevelMapping[k] == index) {
+				return k.ToString();
+			}
+		}
+		throw new KeyNotFoundException();
+	}
+
+	private void DisplayCongratulations() {
+		// Activate messages
+		EndgameMessaging.gameObject.SetActive(true);
+		VictoryMainMessage.gameObject.SetActive(true);
+		VictoryExtraMessage.gameObject.SetActive(true);
+		// Manipulate secondary message
+		int thisLevelIndex = GetCurrentLevelIndex();
+		string txt = VictoryExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<NextKey>", GetKeyForLevelIndex(thisLevelIndex + 1));
+		VictoryExtraMessage.text = txt;
+	}
+
+	private void DisplayHint(string HintText) {
+		// Activate messages
+		EndgameMessaging.gameObject.SetActive(true);
+		LossMainMessage.gameObject.SetActive(true);
+		LossExtraMessage.gameObject.SetActive(true);
+		// Manipulate secondary message
+		int thisLevelIndex = GetCurrentLevelIndex();
+		string txt = LossExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<Hint>", HintText);
+		LossExtraMessage.text = txt;
 	}
 
 	public void SwitchToScene(string SceneName) {
