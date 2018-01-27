@@ -7,8 +7,10 @@ public class ElectrodeController : MonoBehaviour {
 	public const string TAG_ELECTRODE = "Electrode";
 	const float MOVEMENT_THRESHOLD = 0.01f;
 
+	public int Charge;
 	public bool HasPotential;
 	public bool HasPower;
+	public SpriteRenderer MyGlow;
 
 	private Vector2 LastPosition;
 
@@ -18,18 +20,21 @@ public class ElectrodeController : MonoBehaviour {
 	void Start() {
 		LastPosition = transform.position;
 		ContactingElectrodes = new List<ElectrodeController>();
+		MyGlow.enabled = false;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate() {
 		// The electrode has potential when the electrode is moving
 		HasPotential = (Vector2.Distance(LastPosition, transform.position) > MOVEMENT_THRESHOLD);
+		MyGlow.enabled = HasPotential;
 		LastPosition = transform.position;
 		// If you have potential, check if any neighbors also have it
 		HasPower = false;
 		if(HasPotential) {
 			foreach(ElectrodeController electr in ContactingElectrodes) {
-				HasPower |= electr.HasPotential;
+				// To generate charge, the electrodes must have opposite charges, and both have power
+				HasPower |= electr.HasPotential && (Charge + electr.Charge == 0) ;
 			}
 		}
 	}
