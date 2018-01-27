@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GearController : MonoBehaviour, IClickable {
+public class GearController : MonoBehaviour {
 
 	public const string TAG_GEAR = "Gear";
 	public const string TAG_OBSTACLE = "Obstacle";

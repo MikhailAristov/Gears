@@ -18,11 +18,6 @@ public class GameController : MonoBehaviour {
 		}
 		GearCounter = Gears.Count;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public void RemoveGear(GameObject gameObj) {
 		if(gameObj.CompareTag(GearController.TAG_GEAR)) {

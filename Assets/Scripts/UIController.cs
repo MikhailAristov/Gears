@@ -11,7 +11,6 @@ public class UIController : MonoBehaviour {
 	public GameObject[] GearPrefabs;
 
 	public GameObject CurrentlyCarried;
-	private Vector2 GrippingPoint;
 
 	// Use this for initialization
 	void Start() {
@@ -41,19 +40,16 @@ public class UIController : MonoBehaviour {
 				EmptyHand();
 			} else if(Input.GetKeyUp(KeyCode.Mouse1)) {
 				DestroyCurrentlyCarriedGear();
-			} else {
-				// Move the gear closer to the mouse's current position...
-				CurrentlyCarried.transform.position = GetMousePositionInWorldCoordinates() + GrippingPoint;
 			}
 		} else if(Input.GetKeyDown(KeyCode.Mouse0)) {
-			GameObject clickTarget = RaycastCheck<IClickable>(Input.mousePosition);
+			GameObject clickTarget = RaycastCheck<CarriableController>(Input.mousePosition);
 			if(clickTarget != null) {
 				PickUpGear(clickTarget);
 			}
 		}
 	}
 
-	private Vector2 GetMousePositionInWorldCoordinates() {
+	public static Vector2 GetMousePositionInWorldCoordinates() {
 		Vector3 mousePos = Input.mousePosition;
 		return Camera.main.ScreenToWorldPoint(mousePos);
 	}
@@ -67,7 +63,7 @@ public class UIController : MonoBehaviour {
 
 	private void DestroyCurrentlyCarriedGear() {
 		if(CurrentlyCarried != null) {
-			Game.RemoveGear(CurrentlyCarried);
+			Game.RemoveGear(CurrentlyCarried.gameObject);
 			EmptyHand();
 		}
 	}
@@ -75,18 +71,21 @@ public class UIController : MonoBehaviour {
 	private void PickUpGear(GameObject gear) {
 		Debug.Assert(gear != null && gear.CompareTag(GearController.TAG_GEAR));
 		CurrentlyCarried = gear;
-		GrippingPoint = new Vector2(gear.transform.position.x, gear.transform.position.y) - GetMousePositionInWorldCoordinates();
+		CurrentlyCarried.GetComponent<CarriableController>().Grab();
 		Cursor.visible = false;
 	}
 
 	private void EmptyHand() {
-		CurrentlyCarried = null;
+		if(CurrentlyCarried != null) {
+			CurrentlyCarried.GetComponent<CarriableController>().Release();
+			CurrentlyCarried = null;
+		}
 		Cursor.visible = true;
 	}
 
 	// Projects a ray from the given position to a clickable element
 	// and sets its values accordingly into the input variables
-	private GameObject RaycastCheck<T>(Vector3 screenPosition) where T:IClickable {
+	private GameObject RaycastCheck<T>(Vector3 screenPosition) where T:MonoBehaviour {
 		// Get ray and raycast hit
 		Ray ray = Camera.main.ScreenPointToRay(screenPosition);
 		RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
@@ -95,8 +94,8 @@ public class UIController : MonoBehaviour {
 			Transform objectHit = hit.transform;
 			// Check if it has the necessary component
 			T controller = objectHit.GetComponent<T>();
-			if(controller != null) {
-				return controller.GetGameObject();
+			if(controller != null && controller.isActiveAndEnabled) {
+				return objectHit.gameObject;
 			}
 		}
 		return null;

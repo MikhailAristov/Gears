@@ -20,8 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4068026909909398}
   - component: {fileID: 212646098296997466}
-  - component: {fileID: 114994118007056806}
   - component: {fileID: 114409090728718268}
+  - component: {fileID: 114994118007056806}
+  - component: {fileID: 114711918313846480}
   - component: {fileID: 58415549978737632}
   - component: {fileID: 50088103677334364}
   m_Layer: 0
@@ -90,6 +91,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0841a33833c00a54aa90072750d877f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114711918313846480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1595494946211228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb607374e1b0e8408050cb0e4540bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsBeingCarried: 0
 --- !u!114 &114994118007056806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,7 +152,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 230c684ed3a7ab14ea099a7d3d4cf31b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
