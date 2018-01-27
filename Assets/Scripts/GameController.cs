@@ -4,9 +4,7 @@ using UnityEngine;
 
 // TODO: Check if still needed?
 public class GameController : MonoBehaviour {
-
-	public RotatableController ForceEmitter;
-	public RotatableController ForceSink;
+	
 	public List<RotatableController> Gears;
 	private int GearCounter;
 

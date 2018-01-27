@@ -10,18 +10,29 @@ public class UIController : MonoBehaviour {
 	// The 0th element is always ignored...
 	public GameObject[] GearPrefabs;
 
-	public GameObject CurrentlyCarried;
+	// 0th element is called via F1, 1st via F2, and so on...
+	public string[] LevelNames;
+	private Dictionary<KeyCode, int> FKeyToLevelMapping = new Dictionary<KeyCode, int>() {
+		{KeyCode.F1, 0},
+		{KeyCode.F2, 1},
+		{KeyCode.F3, 2},
+		{KeyCode.F4, 3},
+		{KeyCode.F5, 4},
+		{KeyCode.F6, 5},
+		{KeyCode.F7, 6},
+		{KeyCode.F8, 7},
+		{KeyCode.F9, 8},
+		{KeyCode.F10, 9},
+		{KeyCode.F11, 10},
+		{KeyCode.F12, 11}
+	};
 
-	// Use this for initialization
-	void Start() {
-		Debug.Assert(Game != null);
-	}
+	public GameObject CurrentlyCarried;
 	
 	// Update is called once per frame
 	void Update() {
-		// Quit on Escape
-		if(Input.GetKeyDown(KeyCode.Escape)) {
-			QuitGame();
+		if(Input.anyKeyDown) {
+			CheckControlButtons();
 		}
 
 		// Check if a number has been entered via numpad
@@ -48,6 +59,23 @@ public class UIController : MonoBehaviour {
 					DestroyGear(clickTarget);
 				} else {
 					PickUpGear(clickTarget);
+				}
+			}
+		}
+	}
+
+	private void CheckControlButtons() {
+		// Quit on Escape
+		if(Input.GetKeyDown(KeyCode.Escape)) {
+			QuitGame();
+		}
+		// Otherwise check for level select
+		foreach(KeyCode k in FKeyToLevelMapping.Keys) {
+			if(Input.GetKeyDown(k)) {
+				int LevelIndex = FKeyToLevelMapping[k];
+				if(LevelIndex < LevelNames.Length) {
+					SwitchToScene(LevelNames[LevelIndex]);
+					break;
 				}
 			}
 		}
@@ -114,6 +142,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	public void QuitGame() {
+		Debug.Log("Qutting the game...");
 		Application.Quit();
 	}
 }
