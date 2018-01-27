@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RotatableController : MonoBehaviour {
 
+	const float FULL_REVOLUTION = 360f;
+
 	public float Radius {
 		get { return MyCollider.radius * transform.localScale.x; }
 	}
@@ -12,6 +14,11 @@ public class RotatableController : MonoBehaviour {
 	public float RotationSpeed;
 	private float TargetRotationZ;
 	private Quaternion TargetRotation;
+	private float _totalRotation;
+
+	public float TotalRotation {
+		get { return _totalRotation; }
+	}
 
 	public RotatableController TorqueFrom;
 	public CircleCollider2D MyCollider;
@@ -19,12 +26,26 @@ public class RotatableController : MonoBehaviour {
 	// Jamming
 	private bool JammedByObstacle, JammedByTooCloseGear, JammedByRotationSpeedDifference, JammedByPropagation;
 	private RotatableController JammedByGear;
+
 	public bool IsJammed {
 		get { return (JammedByObstacle || JammedByTooCloseGear || JammedByRotationSpeedDifference || JammedByPropagation); }
 	}
 
 	public bool IsJammedBySomethingOtherThanMe(RotatableController me) {
 		return JammedByObstacle || JammedByTooCloseGear || JammedByRotationSpeedDifference || (JammedByPropagation && JammedByGear != me);
+	}
+
+	// Dirty, but it works...
+	public bool IsSinkCounterClockwise {
+		get { return true; } 
+	}
+
+	// If the "right way" is counter-clockwise, TotalRotation should be positive, otherwise negative
+	public bool HasSinkFullyTurnedTheRightWay {
+		get { return GetComponent<SpriteRenderer>().flipX ? (TotalRotation >= FULL_REVOLUTION) : (TotalRotation <= -FULL_REVOLUTION); }
+	}
+	public bool HasSinkFullyTurnedTheWrongWay {
+		get { return GetComponent<SpriteRenderer>().flipX ? (TotalRotation < -FULL_REVOLUTION) : (TotalRotation > FULL_REVOLUTION); }
 	}
 
 	// Use this for initialization
@@ -50,7 +71,9 @@ public class RotatableController : MonoBehaviour {
 		}
 		// Update rotation according to speed
 		if(Mathf.Abs(RotationSpeed) > 0) {
-			TargetRotationZ -= 0.05f * RotationSpeed / Time.fixedDeltaTime;
+			float rotationDelta = -0.05f * RotationSpeed / Time.fixedDeltaTime;
+			TargetRotationZ += rotationDelta;
+			_totalRotation += rotationDelta;
 			while(TargetRotationZ > 180f) {
 				TargetRotationZ -= 360f;
 			}

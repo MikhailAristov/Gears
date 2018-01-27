@@ -73,4 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9feaff8ac6103264c8b0b078ff4f771a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelCompleted: 0
+  LevelFailed: 0
   Gears: []
+  Sinks: []

@@ -2,19 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: Check if still needed?
 public class GameController : MonoBehaviour {
-	
+
+	public bool LevelCompleted;
+	public bool LevelFailed;
+
 	public List<RotatableController> Gears;
 	private int GearCounter;
 
+	public List<RotatableController> Sinks;
+
 	// Use this for initialization
-	void Start () {
+	void Start() {
+		// Find all gears (if any)
 		Gears = new List<RotatableController>();
 		foreach(GameObject go in GameObject.FindGameObjectsWithTag(GearController.TAG_GEAR)) {
 			Gears.Add(go.GetComponent<RotatableController>());
 		}
 		GearCounter = Gears.Count;
+		// Fina all force sinks
+		Sinks = new List<RotatableController>();
+		foreach(GameObject go in GameObject.FindGameObjectsWithTag("Finish")) {
+			Sinks.Add(go.GetComponent<RotatableController>());
+		}
+	}
+
+	void FixedUpdate() {
+		// Check victory and loss conditions
+		LevelCompleted = CheckVictoryConditions();
+		LevelFailed = !LevelCompleted && CheckLossConditions();
+	}
+
+	private bool CheckVictoryConditions() {
+		// Loop through all force sinks and see if they have turned enough times
+		bool result = true;
+		foreach(RotatableController fs in Sinks) {
+			result &= fs.HasSinkFullyTurnedTheRightWay;
+		}
+		return result;
+	}
+
+	private bool CheckLossConditions() {
+		// Loop through all force sinks and see if they have turned enough times
+		bool result = false;
+		foreach(RotatableController fs in Sinks) {
+			result |= fs.HasSinkFullyTurnedTheWrongWay;
+		}
+		return result;
 	}
 
 	public void RemoveGear(GameObject gameObj) {

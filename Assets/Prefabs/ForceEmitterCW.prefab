@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114107259460529432}
   - component: {fileID: 58533616722475966}
   m_Layer: 0
-  m_Name: ForceEmitter
+  m_Name: ForceEmitterCW
   m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: -2033016871
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 932325c9d1cd67e41a5ab1a75e4c8fad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e97b89672d2c894d8f8608f88291024, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
