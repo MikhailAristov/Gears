@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/doubletrouble.unity
     guid: c8d925f0d4e5c784b8df9d8c291a30d1
+  - enabled: 1
+    path: Assets/Scenes/discharge.unity
+    guid: ee2625af7387dda44941909b173a75cc
