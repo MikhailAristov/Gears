@@ -55,7 +55,7 @@ public class UIController : MonoBehaviour {
 				return;
 			}
 			if(Game.LevelCompleted) {
-				DisplayCongratulations();
+				StartCoroutine(DisplayCongratulations());
 			} else {
 				DisplayHint(Game.LevelFailedHint);
 			}
@@ -184,7 +184,10 @@ public class UIController : MonoBehaviour {
 		throw new KeyNotFoundException();
 	}
 
-	private void DisplayCongratulations() {
+	private IEnumerator DisplayCongratulations() {
+		// Take a screenshot
+		Camera.main.GetComponent<CameraController>().takeScreenshot();
+		yield return null;
 		// Activate messages
 		EndgameMessaging.gameObject.SetActive(true);
 		VictoryMainMessage.gameObject.SetActive(true);

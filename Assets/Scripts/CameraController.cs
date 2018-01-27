@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour {
@@ -28,9 +29,15 @@ public class CameraController : MonoBehaviour {
 		adjustedToAspectRatio = Camera.main.aspect;
 	}
 
-	// Stores a screenshot
+	// Stores a screenshot to My Pictures
 	public void takeScreenshot() {
-		string filepath = String.Format("{0}/screenshot_{1:yyyyMMddHHmmssfff}.png", Application.persistentDataPath, System.DateTime.Now);
+		// Create directory if necessary
+		string targetDir = String.Format("{0}\\{1}", Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), Application.productName);
+		if(!Directory.Exists(targetDir)) {
+			Directory.CreateDirectory(targetDir);
+		}
+		// Take and store the screenshot
+		string filepath = String.Format("{0}\\screenshot_{1:yyyyMMddHHmmssfff}.png", targetDir, System.DateTime.Now);
 		ScreenCapture.CaptureScreenshot(filepath);
 		Debug.LogFormat("Screenshot saved to {0}.", filepath);
 	}
