@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour {
 
+	const string MOUSE_SCROLL_WHEEL = "Mouse ScrollWheel";
+
 	public GameController Game;
 
 	// The 0th element is always ignored...
 	public GameObject[] GearPrefabs;
+	private int LastSelectedPrefabIndex;
 
 	// 0th element is called via F1, 1st via F2, and so on...
 	public string[] LevelNames;
@@ -67,7 +70,18 @@ public class UIController : MonoBehaviour {
 			int numericKey = 0;
 			int.TryParse(Input.inputString, out numericKey);
 			if(numericKey > 0 && numericKey < GearPrefabs.Length) {
-				SpawnGearAtMouse(GearPrefabs[numericKey]);
+				LastSelectedPrefabIndex = numericKey;
+				SpawnGearAtMouse(GearPrefabs[LastSelectedPrefabIndex]);
+			}
+		} else if(Mathf.Abs(Input.GetAxis(MOUSE_SCROLL_WHEEL)) > 0) {
+			// Count the prefab index up and normalize it to proper range
+			LastSelectedPrefabIndex = Mathf.RoundToInt(LastSelectedPrefabIndex + Mathf.Sign(Input.GetAxis(MOUSE_SCROLL_WHEEL)));
+			LastSelectedPrefabIndex = (LastSelectedPrefabIndex + GearPrefabs.Length) % GearPrefabs.Length;
+			// Spawn the prefab or destroy currently held one
+			if(LastSelectedPrefabIndex > 0) {
+				SpawnGearAtMouse(GearPrefabs[LastSelectedPrefabIndex]);
+			} else {
+				DestroyCurrentlyCarriedGear();
 			}
 		}
 
