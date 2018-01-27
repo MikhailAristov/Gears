@@ -35,6 +35,12 @@ public class UIController : MonoBehaviour {
 	public UnityEngine.UI.Text LossExtraMessage;
 	private bool EndgameMessagingEnabled;
 
+	private string[] CongratulationsMessages = {
+		"Well done!",
+		"Awesome job!",
+		"Good work!"
+	};
+
 	public GameObject CurrentlyCarried;
 	
 	// Update is called once per frame
@@ -183,6 +189,8 @@ public class UIController : MonoBehaviour {
 		EndgameMessaging.gameObject.SetActive(true);
 		VictoryMainMessage.gameObject.SetActive(true);
 		VictoryExtraMessage.gameObject.SetActive(true);
+		// Pick a random congratulation from the list...
+		VictoryMainMessage.text = CongratulationsMessages[UnityEngine.Random.Range(0, CongratulationsMessages.Length)];
 		// Manipulate secondary message
 		int thisLevelIndex = GetCurrentLevelIndex();
 		string txt = VictoryExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<NextKey>", GetKeyForLevelIndex(thisLevelIndex + 1));
