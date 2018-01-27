@@ -41,10 +41,14 @@ public class UIController : MonoBehaviour {
 			} else if(Input.GetKeyUp(KeyCode.Mouse1)) {
 				DestroyCurrentlyCarriedGear();
 			}
-		} else if(Input.GetKeyDown(KeyCode.Mouse0)) {
+		} else if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyUp(KeyCode.Mouse1)) {
 			GameObject clickTarget = RaycastCheck<CarriableController>(Input.mousePosition);
 			if(clickTarget != null) {
-				PickUpGear(clickTarget);
+				if(Input.GetKeyUp(KeyCode.Mouse1)) {
+					DestroyGear(clickTarget);
+				} else {
+					PickUpGear(clickTarget);
+				}
 			}
 		}
 	}
@@ -61,9 +65,13 @@ public class UIController : MonoBehaviour {
 		PickUpGear(Game.SpawnGear(gearPrefab, GetMousePositionInWorldCoordinates()));
 	}
 
+	private void DestroyGear(GameObject gear) {
+		Game.RemoveGear(gear);
+	}
+
 	private void DestroyCurrentlyCarriedGear() {
 		if(CurrentlyCarried != null) {
-			Game.RemoveGear(CurrentlyCarried.gameObject);
+			DestroyGear(CurrentlyCarried.gameObject);
 			EmptyHand();
 		}
 	}
