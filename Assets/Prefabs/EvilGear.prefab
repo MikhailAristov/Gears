@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114922312169987726}
   - component: {fileID: 58004557457319400}
   - component: {fileID: 50001624497157830}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EvilGear
   m_TagString: Gear
   m_Icon: {fileID: 0}

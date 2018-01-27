@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114503081425760640}
   - component: {fileID: 58159016110381968}
   - component: {fileID: 50271770846700806}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BadGear
   m_TagString: Gear
   m_Icon: {fileID: 0}
