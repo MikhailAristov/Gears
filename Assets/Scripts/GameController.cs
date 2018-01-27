@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Gears = new List<RotatableController>();
-		foreach(GameObject go in GameObject.FindGameObjectsWithTag(GearController.GEAR_TAG)) {
+		foreach(GameObject go in GameObject.FindGameObjectsWithTag(GearController.TAG_GEAR)) {
 			Gears.Add(go.GetComponent<RotatableController>());
 		}
 		GearCounter = Gears.Count;
@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void RemoveGear(GameObject gameObj) {
-		if(gameObj.CompareTag(GearController.GEAR_TAG)) {
+		if(gameObj.CompareTag(GearController.TAG_GEAR)) {
 			RotatableController gearRot = gameObj.GetComponent<RotatableController>();
 			Debug.AssertFormat(gearRot != null & Gears.Remove(gearRot), "Could not remove {0}!", gameObj.name);
 			Destroy(gameObj);
@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public GameObject SpawnGear(GameObject prefab, Vector2 spawnPos) {
-		Debug.Assert(prefab.CompareTag(GearController.GEAR_TAG));
+		Debug.Assert(prefab.CompareTag(GearController.TAG_GEAR));
 		// Spawn from prefab
 		GameObject newGear = Instantiate(prefab) as GameObject;
 		newGear.transform.position = spawnPos;

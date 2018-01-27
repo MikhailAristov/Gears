@@ -16,6 +16,17 @@ public class RotatableController : MonoBehaviour {
 	public RotatableController TorqueFrom;
 	public CircleCollider2D MyCollider;
 
+	// Jamming
+	private bool JammedByObstacle, JammedByTooCloseGear, JammedByRotationSpeedDifference, JammedByPropagation;
+	private RotatableController JammedByGear;
+	public bool IsJammed {
+		get { return (JammedByObstacle || JammedByTooCloseGear || JammedByRotationSpeedDifference || JammedByPropagation); }
+	}
+
+	public bool IsJammedBySomethingOtherThanMe(RotatableController me) {
+		return JammedByObstacle || JammedByTooCloseGear || JammedByRotationSpeedDifference || (JammedByPropagation && JammedByGear != me);
+	}
+
 	// Use this for initialization
 	void Start() {
 		TargetRotation = transform.localRotation;
@@ -30,6 +41,12 @@ public class RotatableController : MonoBehaviour {
 		// Reset torque if necessary
 		if(TorqueFrom != null && !HasTorque()) {
 			SetTorquer(null);
+		}
+		// Check for jams
+		if(IsJammed) {
+			RotationSpeed = 0;
+		} else if(RotationSpeed == 0 && HasTorque()) {
+			RotationSpeed = GetRotationSpeedTransmittedFrom(TorqueFrom);
 		}
 		// Update rotation according to speed
 		if(Mathf.Abs(RotationSpeed) > 0) {
@@ -52,14 +69,43 @@ public class RotatableController : MonoBehaviour {
 	public void SetTorquer(RotatableController t) {
 		Debug.AssertFormat(t != TorqueFrom, gameObject.name);
 		TorqueFrom = t;
-		if(t == null) {
-			RotationSpeed = 0;
-		} else if(t.CompareTag("Respawn") || CompareTag("Finish")) {
+		RotationSpeed = GetRotationSpeedTransmittedFrom(t);
+	}
+
+	private float GetRotationSpeedTransmittedFrom(RotatableController rot) {
+		if(rot == null) {
+			return 0;
+		} else if(rot.CompareTag("Respawn") || CompareTag("Finish")) {
 			// Force emitter and sink have direct speed transmission
-			RotationSpeed = t.RotationSpeed;
+			return rot.RotationSpeed;
 		} else {
 			// Gears transmit in reverse
-			RotationSpeed = -t.RotationSpeed * t.Radius / Radius;
+			return -rot.RotationSpeed * rot.Radius / Radius;
 		}
+	}
+
+	public void JamByObstacle() {
+		JammedByObstacle = true;
+	}
+
+	public void JamByCollidingGear() {
+		JammedByTooCloseGear = true;
+	}
+
+	public void JamByRotationalDifference() {
+		JammedByRotationSpeedDifference = true;
+	}
+
+	public void PropagateJamFrom(RotatableController rot) {
+		JammedByPropagation = true;
+		JammedByGear = rot;
+	}
+
+	public void ResetJammingConditions() {
+		JammedByObstacle = false;
+		JammedByTooCloseGear = false;
+		JammedByRotationSpeedDifference = false;
+		JammedByPropagation = false;
+		JammedByGear = null;
 	}
 }

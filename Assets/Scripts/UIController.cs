@@ -73,7 +73,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	private void PickUpGear(GameObject gear) {
-		Debug.Assert(gear != null && gear.CompareTag(GearController.GEAR_TAG));
+		Debug.Assert(gear != null && gear.CompareTag(GearController.TAG_GEAR));
 		CurrentlyCarried = gear;
 		GrippingPoint = new Vector2(gear.transform.position.x, gear.transform.position.y) - GetMousePositionInWorldCoordinates();
 		Cursor.visible = false;

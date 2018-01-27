@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GearController : MonoBehaviour, IClickable {
 
-	public const string GEAR_TAG = "Gear";
+	public const string TAG_GEAR = "Gear";
+	public const string TAG_OBSTACLE = "Obstacle";
 
 	const float EMITTER_TOLERANCE = 0.05f;
 	const float SINK_TOLERANCE = EMITTER_TOLERANCE;
@@ -24,13 +25,9 @@ public class GearController : MonoBehaviour, IClickable {
 		// Initialize neighbors
 		Neighbours = new List<GameObject>();
 	}
-	
-	// Update is called once per frame
-	void Update() {
-		
-	}
 
 	void FixedUpdate() {
+		MyRotator.ResetJammingConditions();
 		// Go through current neighbours and see if any of them have torque
 		RotatableController myNewTorquer = null;
 		foreach(GameObject neighbor in Neighbours) {
@@ -40,7 +37,6 @@ public class GearController : MonoBehaviour, IClickable {
 				if(neighbor.CompareTag("Respawn")) {
 					if(Vector2.Distance(neighbor.transform.position, transform.position) < EMITTER_TOLERANCE) {
 						myNewTorquer = neighborRot;
-						break;
 					}
 				} else if(neighbor.CompareTag("Finish")) {
 					// If it's a force sink, rotate it if close
@@ -48,23 +44,26 @@ public class GearController : MonoBehaviour, IClickable {
 						Vector2.Distance(neighborRot.transform.position, transform.position) < SINK_TOLERANCE)  {
 						neighborRot.SetTorquer(MyRotator);
 					}
-				} else if(neighbor.CompareTag(GEAR_TAG)) {		
+				} else if(neighbor.CompareTag(TAG_GEAR)) {
+					// Check if this gear is jammed by someone else
+					if(neighborRot.IsJammedBySomethingOtherThanMe(MyRotator)) {
+						MyRotator.PropagateJamFrom(neighborRot);
+					}
 					// If it's a gear, jam if the neighbor is too close
 					float maxDistanceBeforeJam = MyRotator.Radius + neighborRot.Radius - NEIGHBOUR_GEAR_TOLERANCE;
 					if(Vector2.Distance(neighbor.transform.position, transform.position) < maxDistanceBeforeJam) {
-						// JAM!
-						//Debug.LogWarningFormat("Jam!");
+						MyRotator.JamByCollidingGear();
 					} else if(neighborRot.HasTorque() && neighborRot.TorqueFrom != MyRotator) {
 						if(myNewTorquer == null) {
 							myNewTorquer = neighborRot;
-							break; // TODO remove for jams...
 						} else if(Mathf.Abs(myNewTorquer.RotationSpeed - neighborRot.RotationSpeed) > SPEED_DIFF_TOLERANCE) {
 							// JAM if two nearby torquers have a large speed difference!
+							MyRotator.JamByRotationalDifference();
 						}
 					}
 				}	
 			} else {
-				// Okay, three, two, one... let's JAM!
+				MyRotator.JamByObstacle();
 			}
 		}
 		// If a suitable torquer has been found, adopt its rotation speed
