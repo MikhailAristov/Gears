@@ -56,6 +56,7 @@ public class UIController : MonoBehaviour {
 			if(EndgameMessagingEnabled) {
 				return;
 			}
+			EmptyHand();
 			if(Game.LevelCompleted) {
 				StartCoroutine(DisplayCongratulations());
 			} else {

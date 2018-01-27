@@ -29,7 +29,7 @@ public class GearController : MonoBehaviour {
 	void FixedUpdate() {
 		MyRotator.ResetJammingConditions();
 		// Go through current neighbours and see if any of them have torque
-		RotatableController myNewTorquer = null;
+		RotatableController myNewTorquer = null, myNeighbourSink = null;
 		foreach(GameObject neighbor in Neighbours) {
 			RotatableController neighborRot = neighbor.GetComponent<RotatableController>();
 			if(neighborRot != null) {
@@ -40,9 +40,8 @@ public class GearController : MonoBehaviour {
 					}
 				} else if(neighbor.CompareTag("Finish")) {
 					// If it's a force sink, rotate it if close
-					if(Mathf.Abs(MyRotator.RotationSpeed) > 0 && neighborRot.TorqueFrom != MyRotator &&
-						Vector2.Distance(neighborRot.transform.position, transform.position) < SINK_TOLERANCE)  {
-						neighborRot.SetTorquer(MyRotator);
+					if(Vector2.Distance(neighborRot.transform.position, transform.position) < SINK_TOLERANCE)  {
+						myNeighbourSink = neighborRot;
 					}
 				} else if(neighbor.CompareTag(TAG_GEAR)) {
 					// Check if this gear is jammed by someone else
@@ -62,13 +61,27 @@ public class GearController : MonoBehaviour {
 						}
 					}
 				}	
-			} else {
+			} else if(!neighbor.CompareTag(ElectrodeController.TAG_ELECTRODE)) {
+				// Electrodes don't interfere with gears...
 				MyRotator.JamByObstacle();
 			}
 		}
 		// If a suitable torquer has been found, adopt its rotation speed
 		if(myNewTorquer != MyRotator.TorqueFrom) {
 			MyRotator.SetTorquer(myNewTorquer != null ? myNewTorquer : null);
+		}
+		// If I am in contact with a sink, propagate either my speed or my jam to it
+		if(myNeighbourSink != null) {
+			// Check for jams
+			if(MyRotator.IsJammed) {
+				myNeighbourSink.PropagateJamFrom(MyRotator);
+			} else if(myNeighbourSink.IsJammedByMe(MyRotator)) {
+				myNeighbourSink.ResetJammingConditions();
+			}
+			// Check whether my speed can be propagated
+			if(!MyRotator.IsJammed && Mathf.Abs(MyRotator.RotationSpeed) > 0 && myNeighbourSink.TorqueFrom != MyRotator) {
+				myNeighbourSink.SetTorquer(MyRotator);
+			}
 		}
 	}
 

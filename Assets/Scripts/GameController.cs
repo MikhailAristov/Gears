@@ -11,7 +11,8 @@ public class GameController : MonoBehaviour {
 	public List<RotatableController> Gears;
 	private int GearCounter;
 
-	public List<RotatableController> Sinks;
+	private List<RotatableController> Sinks;
+	private List<ElectrodeController> Electrodes;
 
 	// Use this for initialization
 	void Start() {
@@ -21,10 +22,15 @@ public class GameController : MonoBehaviour {
 			Gears.Add(go.GetComponent<RotatableController>());
 		}
 		GearCounter = Gears.Count;
-		// Fina all force sinks
+		// Find all force sinks
 		Sinks = new List<RotatableController>();
 		foreach(GameObject go in GameObject.FindGameObjectsWithTag("Finish")) {
 			Sinks.Add(go.GetComponent<RotatableController>());
+		}
+		// Find all force sinks
+		Electrodes = new List<ElectrodeController>();
+		foreach(GameObject go in GameObject.FindGameObjectsWithTag(ElectrodeController.TAG_ELECTRODE)) {
+			Electrodes.Add(go.GetComponent<ElectrodeController>());
 		}
 	}
 
@@ -40,6 +46,10 @@ public class GameController : MonoBehaviour {
 		foreach(RotatableController fs in Sinks) {
 			result &= fs.HasSinkFullyTurnedTheRightWay;
 		}
+		// Loop through all electrodes and find if all are powered up
+		foreach(ElectrodeController electr in Electrodes) {
+			result &= electr.HasPower;
+		}
 		return result;
 	}
 
@@ -50,7 +60,7 @@ public class GameController : MonoBehaviour {
 			result |= fs.HasSinkFullyTurnedTheWrongWay;
 		}
 		if(result) {
-			LevelFailedHint = "The blue axle has turned the wrong way!";
+			LevelFailedHint = "A blue axle has turned the wrong way!";
 		}
 		return result;
 	}

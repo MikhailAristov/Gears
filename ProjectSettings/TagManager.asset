@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Gear
   - Obstacle
+  - Electrode
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 3911784605
+    locked: 0
+  - name: Electrodes
+    uniqueID: 409650365
     locked: 0
   - name: Level
     uniqueID: 2261950425

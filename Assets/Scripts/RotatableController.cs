@@ -31,6 +31,10 @@ public class RotatableController : MonoBehaviour {
 		get { return (JammedByObstacle || JammedByTooCloseGear || JammedByRotationSpeedDifference || JammedByPropagation); }
 	}
 
+	public bool IsJammedByMe(RotatableController me) {
+		return JammedByPropagation && JammedByGear == me;
+	}
+
 	public bool IsJammedBySomethingOtherThanMe(RotatableController me) {
 		return JammedByObstacle || JammedByTooCloseGear || JammedByRotationSpeedDifference || (JammedByPropagation && JammedByGear != me);
 	}
