@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour {
 	public GameObject[] GearPrefabs;
 
 	public GameObject CurrentlyCarried;
+	private Vector2 GrippingPoint;
 
 	// Use this for initialization
 	void Start() {
@@ -42,7 +43,7 @@ public class UIController : MonoBehaviour {
 				DestroyCurrentlyCarriedGear();
 			} else {
 				// Move the gear closer to the mouse's current position...
-				CurrentlyCarried.transform.position = GetMousePositionInWorldCoordinates();
+				CurrentlyCarried.transform.position = GetMousePositionInWorldCoordinates() + GrippingPoint;
 			}
 		} else if(Input.GetKeyDown(KeyCode.Mouse0)) {
 			GameObject clickTarget = RaycastCheck<IClickable>(Input.mousePosition);
@@ -74,6 +75,7 @@ public class UIController : MonoBehaviour {
 	private void PickUpGear(GameObject gear) {
 		Debug.Assert(gear != null && gear.CompareTag(GameController.GEAR_TAG));
 		CurrentlyCarried = gear;
+		GrippingPoint = new Vector2(gear.transform.position.x, gear.transform.position.y) - GetMousePositionInWorldCoordinates();
 		Cursor.visible = false;
 	}
 
