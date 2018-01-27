@@ -595,21 +595,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 224074925697137730, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
-        type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 224074925697137730, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
-        type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 224074925697137730, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
-        type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.02
-      objectReference: {fileID: 0}
     - target: {fileID: 223094383930005758, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
         type: 2}
       propertyPath: m_Camera
