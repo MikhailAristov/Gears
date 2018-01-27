@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RotatableController : MonoBehaviour {
 
-	public float Radius;
-	//public float Force;
-	//public float Torque;
+	public float Radius {
+		get { return MyCollider.radius * transform.localScale.x; }
+	}
 
 	// 1.0 = 20 rps
 	public float RotationSpeed;
@@ -14,6 +14,7 @@ public class RotatableController : MonoBehaviour {
 	private Quaternion TargetRotation;
 
 	public RotatableController TorqueFrom;
+	public CircleCollider2D MyCollider;
 
 	// Use this for initialization
 	void Start() {
@@ -27,7 +28,7 @@ public class RotatableController : MonoBehaviour {
 
 	void FixedUpdate() {
 		// Reset torque if necessary
-		if(!HasTorque()) {
+		if(TorqueFrom != null && !HasTorque()) {
 			SetTorquer(null);
 		}
 		// Update rotation according to speed
@@ -49,7 +50,7 @@ public class RotatableController : MonoBehaviour {
 	}
 
 	public void SetTorquer(RotatableController t) {
-		Debug.AssertFormat(t == null || !HasTorque(), gameObject.name);
+		Debug.AssertFormat(t != TorqueFrom, gameObject.name);
 		TorqueFrom = t;
 		if(t == null) {
 			RotationSpeed = 0;

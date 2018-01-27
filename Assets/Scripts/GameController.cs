@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Check if still needed?
 public class GameController : MonoBehaviour {
-
-	public const string GEAR_TAG = "Gear";
 
 	public RotatableController ForceEmitter;
 	public RotatableController ForceSink;
@@ -14,7 +13,7 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Gears = new List<RotatableController>();
-		foreach(GameObject go in GameObject.FindGameObjectsWithTag(GEAR_TAG)) {
+		foreach(GameObject go in GameObject.FindGameObjectsWithTag(GearController.GEAR_TAG)) {
 			Gears.Add(go.GetComponent<RotatableController>());
 		}
 		GearCounter = Gears.Count;
@@ -26,7 +25,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void RemoveGear(GameObject gameObj) {
-		if(gameObj.CompareTag(GEAR_TAG)) {
+		if(gameObj.CompareTag(GearController.GEAR_TAG)) {
 			RotatableController gearRot = gameObj.GetComponent<RotatableController>();
 			Debug.AssertFormat(gearRot != null & Gears.Remove(gearRot), "Could not remove {0}!", gameObj.name);
 			Destroy(gameObj);
@@ -34,7 +33,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public GameObject SpawnGear(GameObject prefab, Vector2 spawnPos) {
-		Debug.Assert(prefab.CompareTag(GEAR_TAG));
+		Debug.Assert(prefab.CompareTag(GearController.GEAR_TAG));
 		// Spawn from prefab
 		GameObject newGear = Instantiate(prefab) as GameObject;
 		newGear.transform.position = spawnPos;

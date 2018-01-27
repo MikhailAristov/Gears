@@ -4,27 +4,25 @@ using UnityEngine;
 
 public class GearController : MonoBehaviour, IClickable {
 
+	public const string GEAR_TAG = "Gear";
+
 	const float EMITTER_TOLERANCE = 0.05f;
 	const float SINK_TOLERANCE = EMITTER_TOLERANCE;
-	const float NEIGHBOUR_GEAR_TOLERANCE = 0.4f;
+	const float NEIGHBOUR_GEAR_TOLERANCE = 0.2f;
+	const float SPEED_DIFF_TOLERANCE = 0.1f;
 
-	private GameController Game;
 	private RotatableController MyRotator;
-	private RotatableController Emitter;
-	private RotatableController Sink;
 
-	public RotatableController NearestGear;
-	public float DistToNearestGear;
-	public float DistToInteract;
+	// List all current collisions
+	private List<GameObject> Neighbours;
 
 	// Use this for initialization
 	void Start() {
 		// Get my rotator and radius
 		MyRotator = GetComponent<RotatableController>();
-		// Find game controller and otherrotators
-		Game = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-		Emitter = Game.ForceEmitter;
-		Sink = Game.ForceSink;
+		Debug.Assert(MyRotator != null);
+		// Initialize neighbors
+		Neighbours = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -33,61 +31,59 @@ public class GearController : MonoBehaviour, IClickable {
 	}
 
 	void FixedUpdate() {
-		// First check if my previous torquer is still in range
-		if(MyRotator.TorqueFrom != null) {
-			CheckCurrentTorquer();
-		}
-
-		// Now, if torquer is still or just now null, look for a new one
-		if(MyRotator.TorqueFrom == null) {
-			LookForNewTorquer();
-		}
-
-		// Finally, if I am close to the sink, make it rotate, too
-		if(Mathf.Abs(MyRotator.RotationSpeed) > 0 && Sink.TorqueFrom != MyRotator)  {
-			CheckForceSinkProximity();
-		}
-	}
-
-	private void CheckCurrentTorquer() {
-		float tolerance = (MyRotator.TorqueFrom == Emitter) ? EMITTER_TOLERANCE : NEIGHBOUR_GEAR_TOLERANCE;
-		if(Vector2.Distance(MyRotator.TorqueFrom.transform.position, transform.position) > tolerance) {
-			MyRotator.SetTorquer(null);
-		}
-	}
-
-	private void LookForNewTorquer() {
-		// First, check if we are close enough to the emitter
-		if(Vector2.Distance(Emitter.transform.position, transform.position) < EMITTER_TOLERANCE) {
-			MyRotator.SetTorquer(Emitter);
-		} else {
-			// Look for the closest gear with torque
-			RotatableController closestGearWithTorque = null;
-			float closestGearDistance = float.MaxValue;
-			foreach(RotatableController gear in Game.Gears) {
-				if(gear.HasTorque()) {
-					float distanceToGear = Vector2.Distance(gear.transform.position, transform.position);
-					float interactionDistance = MyRotator.Radius + gear.Radius;
-					if(distanceToGear < closestGearDistance &&
-						Mathf.Abs(distanceToGear - interactionDistance) < NEIGHBOUR_GEAR_TOLERANCE) {
-						closestGearWithTorque = gear;
+		// Go through current neighbours and see if any of them have torque
+		RotatableController myNewTorquer = null;
+		foreach(GameObject neighbor in Neighbours) {
+			RotatableController neighborRot = neighbor.GetComponent<RotatableController>();
+			if(neighborRot != null) {
+				// First check if we are at the force emitter
+				if(neighbor.CompareTag("Respawn")) {
+					if(Vector2.Distance(neighbor.transform.position, transform.position) < EMITTER_TOLERANCE) {
+						myNewTorquer = neighborRot;
+						break;
 					}
-				}
-			}
-			// If a close by gear with torque has been found, set it as my new torquer
-			if(closestGearWithTorque != null) {
-				MyRotator.SetTorquer(closestGearWithTorque);
+				} else if(neighbor.CompareTag("Finish")) {
+					// If it's a force sink, rotate it if close
+					if(Mathf.Abs(MyRotator.RotationSpeed) > 0 && neighborRot.TorqueFrom != MyRotator &&
+						Vector2.Distance(neighborRot.transform.position, transform.position) < SINK_TOLERANCE)  {
+						neighborRot.SetTorquer(MyRotator);
+					}
+				} else if(neighbor.CompareTag(GEAR_TAG)) {		
+					// If it's a gear, jam if the neighbor is too close
+					float maxDistanceBeforeJam = MyRotator.Radius + neighborRot.Radius - NEIGHBOUR_GEAR_TOLERANCE;
+					if(Vector2.Distance(neighbor.transform.position, transform.position) < maxDistanceBeforeJam) {
+						// JAM!
+						//Debug.LogWarningFormat("Jam!");
+					} else if(neighborRot.HasTorque() && neighborRot.TorqueFrom != MyRotator) {
+						if(myNewTorquer == null) {
+							myNewTorquer = neighborRot;
+							break; // TODO remove for jams...
+						} else if(Mathf.Abs(myNewTorquer.RotationSpeed - neighborRot.RotationSpeed) > SPEED_DIFF_TOLERANCE) {
+							// JAM if two nearby torquers have a large speed difference!
+						}
+					}
+				}	
+			} else {
+				// Okay, three, two, one... let's JAM!
 			}
 		}
-	}
-
-	private void CheckForceSinkProximity() {
-		if(Vector2.Distance(Sink.transform.position, transform.position) < SINK_TOLERANCE) {
-			Sink.SetTorquer(MyRotator);
+		// If a suitable torquer has been found, adopt its rotation speed
+		if(myNewTorquer != MyRotator.TorqueFrom) {
+			MyRotator.SetTorquer(myNewTorquer != null ? myNewTorquer : null);
 		}
 	}
 
 	public GameObject GetGameObject() {
 		return gameObject;
+	}
+
+	void OnCollisionEnter2D(Collision2D coll) {
+		if(!Neighbours.Contains(coll.gameObject)) {
+			Neighbours.Add(coll.gameObject);
+		}
+	}
+
+	void OnCollisionExit2D(Collision2D coll) {
+		Neighbours.Remove(coll.gameObject);
 	}
 }
