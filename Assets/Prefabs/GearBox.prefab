@@ -57,10 +57,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1595494946211228, guid: b6258217572ea6040b71dcce7bf9b984, type: 2}
   - {fileID: 1166222163407516, guid: 1dbed22c6bffc824a8eb121715b1cb11, type: 2}
-  LevelNames:
-  - playable
-  - unmovable
-  - obstacle1
+  EndgameMessaging: {fileID: 0}
+  VictoryMainMessage: {fileID: 0}
+  VictoryExtraMessage: {fileID: 0}
+  LossMainMessage: {fileID: 0}
+  LossExtraMessage: {fileID: 0}
   CurrentlyCarried: {fileID: 0}
 --- !u!114 &114899633221514182
 MonoBehaviour:
@@ -75,5 +76,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelCompleted: 0
   LevelFailed: 0
+  LevelFailedHint: 
   Gears: []
   Sinks: []

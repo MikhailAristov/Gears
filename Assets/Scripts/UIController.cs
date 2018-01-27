@@ -14,8 +14,7 @@ public class UIController : MonoBehaviour {
 	public GameObject[] GearPrefabs;
 	private int LastSelectedPrefabIndex;
 
-	// 0th element is called via F1, 1st via F2, and so on...
-	public string[] LevelNames;
+	// 0th scene in build index is called via F1, 1st via F2, and so on...
 	private Dictionary<KeyCode, int> FKeyToLevelMapping = new Dictionary<KeyCode, int>() {
 		{KeyCode.F1, 0},
 		{KeyCode.F2, 1},
@@ -45,7 +44,7 @@ public class UIController : MonoBehaviour {
 	};
 
 	public GameObject CurrentlyCarried;
-	
+
 	// Update is called once per frame
 	void Update() {
 		if(Input.anyKeyDown) {
@@ -114,8 +113,8 @@ public class UIController : MonoBehaviour {
 		foreach(KeyCode k in FKeyToLevelMapping.Keys) {
 			if(Input.GetKeyDown(k)) {
 				int LevelIndex = FKeyToLevelMapping[k];
-				if(LevelIndex < LevelNames.Length) {
-					SwitchToScene(LevelNames[LevelIndex]);
+				if(LevelIndex < SceneManager.sceneCountInBuildSettings) {
+					SwitchToScene(LevelIndex);
 					break;
 				}
 			}
@@ -178,18 +177,8 @@ public class UIController : MonoBehaviour {
 		return null;
 	}
 
-	private int GetCurrentLevelIndex() {
-		string thisLevelName = SceneManager.GetActiveScene().name;
-		for(int i = 0; i < LevelNames.Length; i++) {
-			if(LevelNames[i] == thisLevelName) {
-				return i;
-			}
-		}
-		throw new KeyNotFoundException();
-	}
-
 	private string GetKeyForLevelIndex(int index) {
-		index %= LevelNames.Length;
+		index %= SceneManager.sceneCountInBuildSettings;
 		foreach(KeyCode k in FKeyToLevelMapping.Keys) {
 			if(FKeyToLevelMapping[k] == index) {
 				return k.ToString();
@@ -209,7 +198,7 @@ public class UIController : MonoBehaviour {
 		// Pick a random congratulation from the list...
 		VictoryMainMessage.text = CongratulationsMessages[UnityEngine.Random.Range(0, CongratulationsMessages.Length)];
 		// Manipulate secondary message
-		int thisLevelIndex = GetCurrentLevelIndex();
+		int thisLevelIndex = SceneManager.GetActiveScene().buildIndex;
 		string txt = VictoryExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<NextKey>", GetKeyForLevelIndex(thisLevelIndex + 1));
 		VictoryExtraMessage.text = txt;
 	}
@@ -220,9 +209,13 @@ public class UIController : MonoBehaviour {
 		LossMainMessage.gameObject.SetActive(true);
 		LossExtraMessage.gameObject.SetActive(true);
 		// Manipulate secondary message
-		int thisLevelIndex = GetCurrentLevelIndex();
+		int thisLevelIndex = SceneManager.GetActiveScene().buildIndex;
 		string txt = LossExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<Hint>", HintText);
 		LossExtraMessage.text = txt;
+	}
+
+	public void SwitchToScene(int SceneIndex) {
+		SceneManager.LoadScene(SceneIndex);
 	}
 
 	public void SwitchToScene(string SceneName) {
