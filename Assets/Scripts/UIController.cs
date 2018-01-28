@@ -112,6 +112,10 @@ public class UIController : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Escape)) {
 			QuitGame();
 		}
+		// Or take a screenshot?
+		if(Input.GetKeyDown(KeyCode.S)) {
+			Camera.main.GetComponent<CameraController>().takeScreenshot();
+		}
 		// Otherwise check for level select
 		foreach(KeyCode k in FKeyToLevelMapping.Keys) {
 			if(Input.GetKeyDown(k)) {
