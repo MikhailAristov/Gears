@@ -78,7 +78,7 @@ public class GameController : MonoBehaviour {
 		// Spawn from prefab
 		GameObject newGear = Instantiate(prefab) as GameObject;
 		newGear.transform.position = spawnPos;
-		newGear.name = prefab.name + GearCounter;
+		newGear.name = prefab.name + "_" + GearCounter;
 		newGear.GetComponent<SpriteRenderer>().sortingOrder = GearCounter;
 		newGear.transform.SetParent(transform);
 		// Add newly spawned prefab to list

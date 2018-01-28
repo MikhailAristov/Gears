@@ -9,7 +9,7 @@ public class GearController : MonoBehaviour {
 
 	const float EMITTER_TOLERANCE = 0.05f;
 	const float SINK_TOLERANCE = EMITTER_TOLERANCE;
-	const float NEIGHBOUR_GEAR_TOLERANCE = 0.2f;
+	const float NEIGHBOUR_GEAR_TOLERANCE = 0.1f;
 	const float SPEED_DIFF_TOLERANCE = 0.1f;
 
 	private RotatableController MyRotator;
