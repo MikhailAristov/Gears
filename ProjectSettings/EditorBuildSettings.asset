@@ -26,3 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/hexagon.unity
     guid: 5e7d45c291e5751428364926ca190dbb
+  - enabled: 1
+    path: Assets/Scenes/ultimate.unity
+    guid: 4d45ebb2e8ccea04787f0b1b5f004f91
