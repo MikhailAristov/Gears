@@ -8,6 +8,9 @@ public class UIController : MonoBehaviour {
 
 	const string MOUSE_SCROLL_WHEEL = "Mouse ScrollWheel";
 
+	const float RESET_GAME_AFTER_SECONDS = 300f;
+	private float TimeWithoutInteraction = 0;
+
 	public GameController Game;
 	public Canvas TutorialOverlay;
 
@@ -76,6 +79,7 @@ public class UIController : MonoBehaviour {
 				LastSelectedPrefabIndex = numericKey;
 				SpawnGearAtMouse(GearPrefabs[LastSelectedPrefabIndex]);
 			}
+			TimeWithoutInteraction = 0;
 		} else if(Mathf.Abs(Input.GetAxis(MOUSE_SCROLL_WHEEL)) > 0) {
 			// Count the prefab index up and normalize it to proper range
 			LastSelectedPrefabIndex = Mathf.RoundToInt(LastSelectedPrefabIndex + Mathf.Sign(Input.GetAxis(MOUSE_SCROLL_WHEEL)));
@@ -86,6 +90,7 @@ public class UIController : MonoBehaviour {
 			} else {
 				DestroyCurrentlyCarriedGear();
 			}
+			TimeWithoutInteraction = 0;
 		}
 
 		// Manipulate the currently carried gear
@@ -93,8 +98,10 @@ public class UIController : MonoBehaviour {
 			if(Input.GetKeyUp(KeyCode.Mouse0)) {
 				// Simply release the gear...
 				EmptyHand();
+				TimeWithoutInteraction = 0;
 			} else if(Input.GetKeyUp(KeyCode.Mouse1)) {
 				DestroyCurrentlyCarriedGear();
+				TimeWithoutInteraction = 0;
 			}
 		} else if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyUp(KeyCode.Mouse1)) {
 			GameObject clickTarget = RaycastCheck<CarriableController>(Input.mousePosition);
@@ -105,6 +112,16 @@ public class UIController : MonoBehaviour {
 					PickUpGear(clickTarget);
 				}
 			}
+			TimeWithoutInteraction = 0;
+		}
+	}
+
+	void FixedUpdate() {
+		// Reset the game back to level 1 if no interaction has occurred for 5 minutes (unless already in level 1)
+		if(TimeWithoutInteraction > RESET_GAME_AFTER_SECONDS && SceneManager.GetActiveScene().buildIndex > 0) {
+			SwitchToScene(0);
+		} else {
+			TimeWithoutInteraction += Time.fixedDeltaTime;
 		}
 	}
 
@@ -116,6 +133,7 @@ public class UIController : MonoBehaviour {
 		// Or take a screenshot?
 		if(Input.GetKeyDown(KeyCode.S)) {
 			Camera.main.GetComponent<CameraController>().takeScreenshot();
+			TimeWithoutInteraction = 0;
 		}
 		// Otherwise check for level select
 		foreach(KeyCode k in FKeyToLevelMapping.Keys) {
