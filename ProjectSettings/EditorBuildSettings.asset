@@ -30,5 +30,8 @@ EditorBuildSettings:
     path: Assets/Scenes/fakeout.unity
     guid: 86da4f5191e031c47ab943e8f92914dd
   - enabled: 1
+    path: Assets/Scenes/obstaclecourse.unity
+    guid: 06320ec53274b4945a2b7a76d1cd290e
+  - enabled: 1
     path: Assets/Scenes/ultimate.unity
     guid: 4d45ebb2e8ccea04787f0b1b5f004f91
