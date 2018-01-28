@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour {
 	const string MOUSE_SCROLL_WHEEL = "Mouse ScrollWheel";
 
 	public GameController Game;
+	public Canvas TutorialOverlay;
 
 	// The 0th element is always ignored...
 	public GameObject[] GearPrefabs;
@@ -195,6 +196,10 @@ public class UIController : MonoBehaviour {
 	}
 
 	private IEnumerator DisplayCongratulations() {
+		// Hide the tutorial
+		if(TutorialOverlay != null) {
+			TutorialOverlay.gameObject.SetActive(false);
+		}
 		// Take a screenshot
 		Camera.main.GetComponent<CameraController>().takeScreenshot();
 		yield return null;

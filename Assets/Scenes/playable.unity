@@ -3215,6 +3215,11 @@ Prefab:
       propertyPath: LossExtraMessage
       value: 
       objectReference: {fileID: 1335324199}
+    - target: {fileID: 114295370889264014, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
+        type: 2}
+      propertyPath: TutorialOverlay
+      value: 
+      objectReference: {fileID: 1980848337}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 464f5d3e64e29f34bb5b0a6807f3613e, type: 2}
   m_IsPrefabParent: 0
