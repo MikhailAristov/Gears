@@ -3,7 +3,7 @@
 
 #define MyAppName "Gears of Yore"
 #define MyAppVersion "1.0.0"
-#define MyAppPublisher "GameLab"
+#define MyAppPublisher "Mikhail Aristov"
 #define MyAppURL "https://www.koveras.net/"
 #define MyAppExeName "Gears_of_Yore.exe"
 
@@ -19,7 +19,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppPublisher}\{#MyAppName}
+DefaultDirName={pf}\GameLab\{#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=..\license.rtf
 OutputDir=..\build\installer
