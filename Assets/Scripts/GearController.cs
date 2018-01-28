@@ -13,6 +13,7 @@ public class GearController : MonoBehaviour {
 	const float SPEED_DIFF_TOLERANCE = 0.1f;
 
 	private RotatableController MyRotator;
+	private RotatableController MySink;
 
 	// List all current collisions
 	private List<GameObject> Neighbours;
@@ -28,8 +29,9 @@ public class GearController : MonoBehaviour {
 
 	void FixedUpdate() {
 		MyRotator.ResetJammingConditions();
+		MySink = null;
 		// Go through current neighbours and see if any of them have torque
-		RotatableController myNewTorquer = null, myNeighbourSink = null;
+		RotatableController myNewTorquer = null;
 		foreach(GameObject neighbor in Neighbours) {
 			RotatableController neighborRot = neighbor.GetComponent<RotatableController>();
 			if(neighborRot != null) {
@@ -41,7 +43,7 @@ public class GearController : MonoBehaviour {
 				} else if(neighbor.CompareTag("Finish")) {
 					// If it's a force sink, rotate it if close
 					if(Vector2.Distance(neighborRot.transform.position, transform.position) < SINK_TOLERANCE)  {
-						myNeighbourSink = neighborRot;
+						MySink = neighborRot;
 					}
 				} else if(neighbor.CompareTag(TAG_GEAR)) {
 					// Check if this gear is jammed by someone else
@@ -71,16 +73,16 @@ public class GearController : MonoBehaviour {
 			MyRotator.SetTorquer(myNewTorquer != null ? myNewTorquer : null);
 		}
 		// If I am in contact with a sink, propagate either my speed or my jam to it
-		if(myNeighbourSink != null) {
+		if(MySink != null) {
 			// Check for jams
 			if(MyRotator.IsJammed) {
-				myNeighbourSink.PropagateJamFrom(MyRotator);
-			} else if(myNeighbourSink.IsJammedByMe(MyRotator)) {
-				myNeighbourSink.ResetJammingConditions();
+				MySink.PropagateJamFrom(MyRotator);
+			} else if(MySink.IsJammedByMe(MyRotator)) {
+				MySink.ResetJammingConditions();
 			}
 			// Check whether my speed can be propagated
-			if(!MyRotator.IsJammed && Mathf.Abs(MyRotator.RotationSpeed) > 0 && myNeighbourSink.TorqueFrom != MyRotator) {
-				myNeighbourSink.SetTorquer(MyRotator);
+			if(!MyRotator.IsJammed && Mathf.Abs(MyRotator.RotationSpeed) > 0 && MySink.TorqueFrom != MyRotator) {
+				MySink.SetTorquer(MyRotator);
 			}
 		}
 	}
@@ -97,5 +99,12 @@ public class GearController : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D coll) {
 		Neighbours.Remove(coll.gameObject);
+	}
+
+	void OnDestroy() {
+		if(MySink != null) {
+			MySink.SetTorquer(null);
+			MySink.ResetJammingConditions();
+		}
 	}
 }
