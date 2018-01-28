@@ -103,7 +103,9 @@ public class GearController : MonoBehaviour {
 
 	void OnDestroy() {
 		if(MySink != null) {
-			MySink.SetTorquer(null);
+			if(MySink.TorqueFrom == MyRotator) {
+				MySink.SetTorquer(null);
+			}
 			MySink.ResetJammingConditions();
 		}
 	}
