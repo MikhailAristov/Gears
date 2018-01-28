@@ -42,6 +42,8 @@ public class UIController : MonoBehaviour {
 		"Awesome job!",
 		"Good work!"
 	};
+	private string BeatingTheGameMessage = "Congratulations!";
+	private string BeatingTheGameSubmessage = "You have beaten the final challenge!\r\nPress F1 to play again, or Esc to exit.";
 
 	public GameObject CurrentlyCarried;
 
@@ -196,12 +198,18 @@ public class UIController : MonoBehaviour {
 		EndgameMessaging.gameObject.SetActive(true);
 		VictoryMainMessage.gameObject.SetActive(true);
 		VictoryExtraMessage.gameObject.SetActive(true);
-		// Pick a random congratulation from the list...
-		VictoryMainMessage.text = CongratulationsMessages[UnityEngine.Random.Range(0, CongratulationsMessages.Length)];
-		// Manipulate secondary message
+		// Check if it's the last level
 		int thisLevelIndex = SceneManager.GetActiveScene().buildIndex;
-		string txt = VictoryExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<NextKey>", GetKeyForLevelIndex(thisLevelIndex + 1));
-		VictoryExtraMessage.text = txt;
+		if(thisLevelIndex + 1 == SceneManager.sceneCountInBuildSettings) {
+			VictoryMainMessage.text = BeatingTheGameMessage;
+			VictoryExtraMessage.text = BeatingTheGameSubmessage;
+		} else {
+			// Pick a random congratulation from the list...
+			VictoryMainMessage.text = CongratulationsMessages[UnityEngine.Random.Range(0, CongratulationsMessages.Length)];
+			// Manipulate secondary message
+			string txt = VictoryExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<NextKey>", GetKeyForLevelIndex(thisLevelIndex + 1));
+			VictoryExtraMessage.text = txt;
+		}
 	}
 
 	private void DisplayHint(string HintText) {
