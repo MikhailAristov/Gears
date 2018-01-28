@@ -10,6 +10,7 @@ public class ElectrodeController : MonoBehaviour {
 	public int Charge;
 	public bool HasPotential;
 	public bool HasPower;
+	public bool PowerDrain;
 	public SpriteRenderer MyGlow;
 
 	private Vector2 LastPosition;
@@ -31,10 +32,13 @@ public class ElectrodeController : MonoBehaviour {
 		LastPosition = transform.position;
 		// If you have potential, check if any neighbors also have it
 		HasPower = false;
-		if(HasPotential) {
-			foreach(ElectrodeController electr in ContactingElectrodes) {
+		PowerDrain = false;
+		foreach(ElectrodeController electr in ContactingElectrodes) {
+			if(HasPotential) {
 				// To generate charge, the electrodes must have opposite charges, and both have power
-				HasPower |= electr.HasPotential && (Charge + electr.Charge == 0) ;
+				HasPower |= electr.HasPotential && (Charge + electr.Charge == 0);
+			} else {
+				PowerDrain |= !electr.HasPotential;
 			}
 		}
 	}

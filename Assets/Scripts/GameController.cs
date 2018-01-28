@@ -55,14 +55,21 @@ public class GameController : MonoBehaviour {
 
 	private bool CheckLossConditions() {
 		// Loop through all force sinks and see if they have turned enough times
-		bool result = false;
+		bool wrongTurn = false;
 		foreach(RotatableController fs in Sinks) {
-			result |= fs.HasSinkFullyTurnedTheWrongWay;
+			wrongTurn |= fs.HasSinkFullyTurnedTheWrongWay;
 		}
-		if(result) {
+		if(wrongTurn) {
 			LevelFailedHint = "A blue axle has turned the wrong way!";
 		}
-		return result;
+		bool powerDrain = false;
+		foreach(ElectrodeController electr in Electrodes) {
+			powerDrain |= electr.PowerDrain;
+		}
+		if(powerDrain) {
+			LevelFailedHint = "Both electrodes must glow when they touch!";
+		}
+		return wrongTurn || powerDrain;
 	}
 
 	public void RemoveGear(GameObject gameObj) {
