@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour {
 
 	public const float VISIBLE_TABLE_WIDTH = 19f;
-	public const float VISIBLE_TABLE_HEIGHT = 10f;
+	public const float VISIBLE_TABLE_HEIGHT = 10.6f;
 
 	private float adjustedToAspectRatio;
 
@@ -25,7 +25,8 @@ public class CameraController : MonoBehaviour {
 
 	// Adjust the camera's orthographic "zoom" so that the entire table is visible in the current resolution
 	private void adjustToAspectRatio() {
-		Camera.main.orthographicSize = (float)Math.Round(VISIBLE_TABLE_WIDTH / 2 / Camera.main.aspect, 1);
+		//Camera.main.orthographicSize = (float)Math.Round(VISIBLE_TABLE_WIDTH / 2 / Camera.main.aspect, 1);
+		Camera.main.orthographicSize = (float)Math.Round(VISIBLE_TABLE_HEIGHT / 2, 1);
 		adjustedToAspectRatio = Camera.main.aspect;
 	}
 
