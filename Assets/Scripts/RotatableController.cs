@@ -64,7 +64,7 @@ public class RotatableController : MonoBehaviour {
 
 	void FixedUpdate() {
 		// Reset torque if necessary
-		if(TorqueFrom != null && !HasTorque()) {
+		if(Mathf.Abs(RotationSpeed) > 0 && !HasTorque()) {
 			SetTorquer(null);
 		}
 		// Check for jams
@@ -94,7 +94,7 @@ public class RotatableController : MonoBehaviour {
 	}
 
 	public void SetTorquer(RotatableController t) {
-		Debug.AssertFormat(t != TorqueFrom, gameObject.name);
+		Debug.AssertFormat(t == null || t != TorqueFrom, gameObject.name);
 		TorqueFrom = t;
 		RotationSpeed = GetRotationSpeedTransmittedFrom(t);
 	}
