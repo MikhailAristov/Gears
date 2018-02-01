@@ -36,5 +36,8 @@ EditorBuildSettings:
     path: Assets/Scenes/outofthebox.unity
     guid: 6f3bc27633c9e1447ae002fbda254f8e
   - enabled: 1
+    path: Assets/Scenes/yingyang.unity
+    guid: db864ab3c4c00be41b186694dffcb01f
+  - enabled: 1
     path: Assets/Scenes/ultimate.unity
     guid: 4d45ebb2e8ccea04787f0b1b5f004f91
