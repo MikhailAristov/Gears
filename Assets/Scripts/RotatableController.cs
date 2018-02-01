@@ -55,6 +55,7 @@ public class RotatableController : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		TargetRotation = transform.localRotation;
+		TargetRotationZ = transform.localRotation.eulerAngles.z;
 	}
 	
 	// Update is called once per frame
@@ -78,10 +79,10 @@ public class RotatableController : MonoBehaviour {
 			float rotationDelta = -0.05f * RotationSpeed / Time.fixedDeltaTime;
 			TargetRotationZ += rotationDelta;
 			_totalRotation += rotationDelta;
-			while(TargetRotationZ > 180f) {
+			if(TargetRotationZ > 180f) {
 				TargetRotationZ -= 360f;
 			}
-			while(TargetRotationZ < -180f) {
+			if(TargetRotationZ < -180f) {
 				TargetRotationZ += 360f;
 			}
 			TargetRotation = Quaternion.Euler(0, 0, TargetRotationZ);
