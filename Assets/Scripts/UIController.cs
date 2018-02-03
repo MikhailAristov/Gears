@@ -251,11 +251,8 @@ public class UIController : MonoBehaviour {
 	}
 
 	public void SwitchToScene(int SceneIndex) {
+		Cursor.visible = true;
 		SceneManager.LoadScene(SceneIndex);
-	}
-
-	public void SwitchToScene(string SceneName) {
-		SceneManager.LoadScene(SceneName);
 	}
 
 	public void QuitGame() {
