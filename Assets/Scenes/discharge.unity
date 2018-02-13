@@ -493,7 +493,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 3e608c8069f16184b9cc620184d668bd, type: 3}
     m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
@@ -897,12 +897,12 @@ Prefab:
     - target: {fileID: 224766094396698210, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 910.00006
+      value: 920.00006
       objectReference: {fileID: 0}
     - target: {fileID: 224766094396698210, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -490
+      value: -520
       objectReference: {fileID: 0}
     - target: {fileID: 114278555714155524, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
         type: 2}
@@ -914,6 +914,11 @@ Prefab:
       propertyPath: TutorialOverlay
       value: 
       objectReference: {fileID: 171774477}
+    - target: {fileID: 224766094396698210, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a9cbcc89c9ab3f49899c65d782ee38d, type: 2}
   m_IsPrefabParent: 0

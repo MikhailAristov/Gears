@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 3e608c8069f16184b9cc620184d668bd
+timeCreated: 1518550222
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: ELEGANT TYPEWRITER
+  fontNames:
+  - ELEGANT TYPEWRITER
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
