@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour {
 	public void RemoveGear(GameObject gameObj) {
 		if(gameObj.CompareTag(GearController.TAG_GEAR)) {
 			RotatableController gearRot = gameObj.GetComponent<RotatableController>();
-			Debug.AssertFormat(gearRot != null & Gears.Remove(gearRot), "Could not remove {0}!", gameObj.name);
+			Gears.Remove(gearRot);
 			Destroy(gameObj);
 		}
 	}
