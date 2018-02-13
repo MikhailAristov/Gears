@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4217836703135396}
   - component: {fileID: 114899633221514182}
-  - component: {fileID: 114295370889264014}
   m_Layer: 0
   m_Name: GearBox
   m_TagString: GameController
@@ -41,31 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114295370889264014
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1096086918488534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dffa5a20d4581c446b051de9de8b5283, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Game: {fileID: 114899633221514182}
-  GearPrefabs:
-  - {fileID: 0}
-  - {fileID: 1729013527933474, guid: 883ce36c62f7dcb428574ae449b087ff, type: 2}
-  - {fileID: 1332425849500736, guid: 1562b7c576944c84c99a1a83dc81acec, type: 2}
-  - {fileID: 1590688072254316, guid: a6795b8c8e222744fa58d19f359e03c1, type: 2}
-  - {fileID: 1621065620573982, guid: f6153f2690abdfa4c9f2d062497c4343, type: 2}
-  - {fileID: 1086762615966640, guid: 4e3ed4a006534224c9c7b92bbf356769, type: 2}
-  EndgameMessaging: {fileID: 0}
-  VictoryMainMessage: {fileID: 0}
-  VictoryExtraMessage: {fileID: 0}
-  LossMainMessage: {fileID: 0}
-  LossExtraMessage: {fileID: 0}
-  CurrentlyCarried: {fileID: 0}
 --- !u!114 &114899633221514182
 MonoBehaviour:
   m_ObjectHideFlags: 1

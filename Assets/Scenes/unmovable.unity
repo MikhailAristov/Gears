@@ -327,6 +327,21 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1237951580}
+    - target: {fileID: 224766094396698210, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 920.00006
+      objectReference: {fileID: 0}
+    - target: {fileID: 224766094396698210, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -520
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278555714155524, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
+        type: 2}
+      propertyPath: Game
+      value: 
+      objectReference: {fileID: 1490100326}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a9cbcc89c9ab3f49899c65d782ee38d, type: 2}
   m_IsPrefabParent: 0
@@ -484,7 +499,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -383182691
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0e3e31e69e5bca34a8d4781d8502ac35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -677,6 +692,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 464f5d3e64e29f34bb5b0a6807f3613e, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1490100326 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114899633221514182, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1490100325}
+  m_Script: {fileID: 11500000, guid: 9feaff8ac6103264c8b0b078ff4f771a, type: 3}
 --- !u!1001 &1595386578
 Prefab:
   m_ObjectHideFlags: 0

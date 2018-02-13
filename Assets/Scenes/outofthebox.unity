@@ -259,34 +259,35 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 114295370889264014, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: EndgameMessaging
       value: 
       objectReference: {fileID: 1649652954}
-    - target: {fileID: 114295370889264014, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: VictoryMainMessage
       value: 
       objectReference: {fileID: 1649652953}
-    - target: {fileID: 114295370889264014, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: VictoryExtraMessage
       value: 
       objectReference: {fileID: 1649652952}
-    - target: {fileID: 114295370889264014, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: LossMainMessage
       value: 
       objectReference: {fileID: 1649652951}
-    - target: {fileID: 114295370889264014, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: LossExtraMessage
       value: 
       objectReference: {fileID: 1649652950}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 464f5d3e64e29f34bb5b0a6807f3613e, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &431460147 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114899633221514182, guid: 464f5d3e64e29f34bb5b0a6807f3613e,
+    type: 2}
+  m_PrefabInternal: {fileID: 387579334}
+  m_Script: {fileID: 11500000, guid: 9feaff8ac6103264c8b0b078ff4f771a, type: 3}
 --- !u!1001 &1080764884
 Prefab:
   m_ObjectHideFlags: 0
@@ -636,6 +637,21 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278555714155524, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
+        type: 2}
+      propertyPath: Game
+      value: 
+      objectReference: {fileID: 431460147}
+    - target: {fileID: 224766094396698210, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 910.00006
+      objectReference: {fileID: 0}
+    - target: {fileID: 224766094396698210, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -490
       objectReference: {fileID: 0}
     - target: {fileID: 223094383930005758, guid: 8a9cbcc89c9ab3f49899c65d782ee38d,
         type: 2}

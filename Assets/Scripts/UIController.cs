@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour {
 
 	public GameController Game;
 	public Canvas TutorialOverlay;
+	public UnityEngine.UI.Text GearCounterText;
 
 	// The 0th element is always ignored...
 	public GameObject[] GearPrefabs;
@@ -50,6 +51,11 @@ public class UIController : MonoBehaviour {
 	private string BeatingTheGameSubmessage = "You have beaten the final challenge!\r\nPress F1 to play again, or Esc to exit.";
 
 	public GameObject CurrentlyCarried;
+
+	void Start() {
+		Debug.Assert(Game != null);
+		StartCoroutine(UpdateGearCounter());
+	}
 
 	// Update is called once per frame
 	void Update() {
@@ -248,6 +254,15 @@ public class UIController : MonoBehaviour {
 		int thisLevelIndex = SceneManager.GetActiveScene().buildIndex;
 		string txt = LossExtraMessage.text.Replace("<ThisKey>", GetKeyForLevelIndex(thisLevelIndex)).Replace("<Hint>", HintText);
 		LossExtraMessage.text = txt;
+	}
+
+	private IEnumerator UpdateGearCounter() {
+		int CurrentGearCount = -1;
+		while(true) {
+			CurrentGearCount = Game.Gears.Count;
+			GearCounterText.text = CurrentGearCount.ToString();
+			yield return new WaitUntil(() => CurrentGearCount != Game.Gears.Count);
+		}
 	}
 
 	public void SwitchToScene(int SceneIndex) {
